@@ -15,7 +15,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.sheepyang.gankgirl.R;
 import com.sheepyang.gankgirl.adapter.base.AbsRecyclerViewAdapter;
-import com.sheepyang.gankgirl.model.taomodel.Contentlist;
+import com.sheepyang.gankgirl.model.meizi.taomodel.Contentlist;
 import com.sheepyang.gankgirl.ui.activity.SingleMeiziDetailsActivity;
 import com.sheepyang.gankgirl.ui.activity.TaoFemalePagerActivity;
 import com.sheepyang.gankgirl.widget.CircleImageView;

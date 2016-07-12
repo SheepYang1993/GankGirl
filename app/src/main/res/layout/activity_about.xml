@@ -125,7 +125,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="HotBitmapGG"
+                    android:text="SheepYang"
                     android:textColor="@color/font_normal" />
 
                 <TextView
@@ -144,7 +144,7 @@
                     android:layout_alignTop="@id/tv_avator_github"
                     android:layout_toRightOf="@id/tv_avator_github"
                     android:autoLink="web"
-                    android:text="https://github.com/HotBitmapGG"
+                    android:text="https://github.com/SheepYang1993"
                     android:textColor="@color/font_normal" />
 
             </RelativeLayout>

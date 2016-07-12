@@ -11,6 +11,7 @@
     <string name="douban_meizi">豆瓣妹子</string>
     <string name="huaban_meizi">花瓣妹子</string>
     <string name="jiandan_meizi">煎蛋妹子</string>
+    <string name="school_home">校园生活</string>
     <string name="action_notifiable">每天中午提醒</string>
     <string name="notifiable_on">已经开启提醒</string>
     <string name="notifiable_off">已经关闭提醒</string>
@@ -26,5 +27,5 @@
     <string name="about_function_list">1.Gank妹子\n2.淘女郎\n3.豆瓣妹子\n4.花瓣妹子\n5.煎蛋妹子\n6.每日更新提醒\n7. 妹子图片保存与分享</string>
     <string name="about">关于</string>
     <string name="about_version">1.0</string>
-    <string name="project_link">https://github.com/HotBitmapGG/MoeQuest</string>
+    <string name="project_link">https://github.com/SheepYang1993/GankGirl</string>
 </resources>

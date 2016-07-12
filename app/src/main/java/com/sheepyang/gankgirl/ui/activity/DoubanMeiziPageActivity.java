@@ -18,7 +18,7 @@ import android.widget.Toast;
 
 import com.sheepyang.gankgirl.R;
 import com.sheepyang.gankgirl.base.RxBaseActivity;
-import com.sheepyang.gankgirl.model.douban.DoubanMeizi;
+import com.sheepyang.gankgirl.model.meizi.douban.DoubanMeizi;
 import com.sheepyang.gankgirl.rx.RxBus;
 import com.sheepyang.gankgirl.ui.fragment.MeiziDetailsFragment;
 import com.sheepyang.gankgirl.utils.ConstantUtil;

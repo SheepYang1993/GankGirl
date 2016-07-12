@@ -1,4 +1,4 @@
-package com.sheepyang.gankgirl.model.huaban;
+package com.sheepyang.gankgirl.model.meizi.huaban;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;

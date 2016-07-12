@@ -1,4 +1,4 @@
-package com.sheepyang.gankgirl.model.douban;
+package com.sheepyang.gankgirl.model.meizi.douban;
 
 import io.realm.RealmObject;
 

@@ -1,4 +1,4 @@
-package com.sheepyang.gankgirl.model.gank;
+package com.sheepyang.gankgirl.model.meizi.gank;
 
 
 public class GankMeiziInfo

@@ -1,7 +1,7 @@
 package com.sheepyang.gankgirl.network.api;
 
 
-import com.sheepyang.gankgirl.model.gank.GankMeiziResult;
+import com.sheepyang.gankgirl.model.meizi.gank.GankMeiziResult;
 
 import retrofit2.http.GET;
 import retrofit2.http.Path;

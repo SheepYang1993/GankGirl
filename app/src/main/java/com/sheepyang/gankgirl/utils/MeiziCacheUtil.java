@@ -2,7 +2,7 @@ package com.sheepyang.gankgirl.utils;
 
 import android.content.Context;
 
-import com.sheepyang.gankgirl.model.douban.DoubanMeizi;
+import com.sheepyang.gankgirl.model.meizi.douban.DoubanMeizi;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

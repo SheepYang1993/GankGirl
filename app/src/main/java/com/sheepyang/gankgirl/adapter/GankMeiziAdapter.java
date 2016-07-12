@@ -11,7 +11,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.SizeReadyCallback;
 import com.sheepyang.gankgirl.R;
 import com.sheepyang.gankgirl.adapter.base.AbsRecyclerViewAdapter;
-import com.sheepyang.gankgirl.model.gank.GankMeizi;
+import com.sheepyang.gankgirl.model.meizi.gank.GankMeizi;
 import com.sheepyang.gankgirl.widget.RatioImageView;
 
 import java.util.ArrayList;

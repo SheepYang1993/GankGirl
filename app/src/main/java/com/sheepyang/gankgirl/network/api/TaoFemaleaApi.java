@@ -1,6 +1,6 @@
 package com.sheepyang.gankgirl.network.api;
 
-import com.sheepyang.gankgirl.model.taomodel.TaoFemale;
+import com.sheepyang.gankgirl.model.meizi.taomodel.TaoFemale;
 
 import retrofit2.http.GET;
 import retrofit2.http.Query;

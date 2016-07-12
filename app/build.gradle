@@ -4,6 +4,9 @@ android {
     compileSdkVersion 23
     buildToolsVersion "23.0.3"
 
+    //bbmob兼容Adroid6.0系统所需，如果这句话报错，可在dependencies标签下使用compile 'cn.bmob.android:http-legacy:1.0'
+    useLibrary 'org.apache.http.legacy'
+
     defaultConfig {
         applicationId "com.sheepyang.gankgirl"
         minSdkVersion 19
@@ -22,14 +25,18 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']//将so文件目录指向libs目录
+        }
+    }
     packagingOptions {
         exclude 'META-INF/services/javax.annotation.processing.Processor'
     }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     //AndroidLib
     compile 'com.android.support:support-v4:23.4.0'
@@ -76,4 +83,6 @@ dependencies {
     compile 'com.tencent.bugly:nativecrashreport:latest.release'
     //photoView
     compile 'com.github.chrisbanes:PhotoView:1.2.6'
+    compile files('src/main/libs/gson-2.6.2.jar')
+    compile files('src/main/libs/BmobSDK_3.5.0_20160627.jar')
 }

@@ -1,4 +1,4 @@
-package com.sheepyang.gankgirl.model.taomodel;
+package com.sheepyang.gankgirl.model.meizi.taomodel;
 
 import java.util.ArrayList;
 

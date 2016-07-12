@@ -11,7 +11,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.sheepyang.gankgirl.R;
 import com.sheepyang.gankgirl.adapter.base.AbsRecyclerViewAdapter;
-import com.sheepyang.gankgirl.model.jiandan.JianDanMeizi;
+import com.sheepyang.gankgirl.model.meizi.jiandan.JianDanMeizi;
 import com.sheepyang.gankgirl.utils.LogUtil;
 
 import java.util.ArrayList;

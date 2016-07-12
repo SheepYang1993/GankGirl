@@ -15,7 +15,7 @@ public class ConstantUtil
     public static final String APP_SIGN = "d424376f51f1467da1b8c75debebf148";
 
     //本地存储dir目录
-    public static final String FILE_DIR = "moe_quest";
+    public static final String FILE_DIR = "GankGirl";
 
     //腾讯buglyID
     public static final String BUGLY_ID = "900037370";

@@ -9,13 +9,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.sheepyang.gankgirl.R;
-import com.sheepyang.gankgirl.adapter.JiandanMeiziAdapter;
+import com.sheepyang.gankgirl.adapter.TaoFemaleAdapter;
 import com.sheepyang.gankgirl.adapter.base.AbsRecyclerViewAdapter;
 import com.sheepyang.gankgirl.base.RxBaseFragment;
-import com.sheepyang.gankgirl.model.meizi.jiandan.JianDanMeizi;
+import com.sheepyang.gankgirl.model.meizi.taomodel.Contentlist;
+import com.sheepyang.gankgirl.model.meizi.taomodel.TaoFemale;
 import com.sheepyang.gankgirl.network.RetrofitHelper;
 import com.sheepyang.gankgirl.ui.activity.SingleMeiziDetailsActivity;
-import com.sheepyang.gankgirl.utils.LogUtil;
+import com.sheepyang.gankgirl.utils.ConstantUtil;
 import com.sheepyang.gankgirl.utils.SnackbarUtil;
 import com.sheepyang.gankgirl.widget.loadmore.EndlessRecyclerOnScrollListener;
 import com.sheepyang.gankgirl.widget.loadmore.HeaderViewRecyclerAdapter;
@@ -29,73 +30,70 @@ import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 /**
- * Created by hcc on 16/6/28 20:30
+ * Created by hcc on 16/6/25 19:48
  * 100332338@qq.com
  * <p/>
- * 煎蛋妹子
+ * 淘女郎
  */
-public class JianDanMeiziFragment extends RxBaseFragment
+public class SchoolFragment extends RxBaseFragment
 {
-
-    @Bind(R.id.recycle)
-    RecyclerView mRecyclerView;
 
     @Bind(R.id.swipe_refresh)
     SwipeRefreshLayout mSwipeRefreshLayout;
 
+    @Bind(R.id.recycle)
+    RecyclerView mRecyclerView;
+
     private int page = 1;
 
-    private int count = 25;
-
-    private List<JianDanMeizi.JianDanMeiziData> jianDanMeiziDataList = new ArrayList<>();
-
-    private HeaderViewRecyclerAdapter mHeaderViewRecyclerAdapter;
-
-    private JiandanMeiziAdapter mAdapter;
+    private int pageNum = 20;
 
     private View footView;
 
-    public static JianDanMeiziFragment newInstance()
+    private List<Contentlist> datas = new ArrayList<>();
+
+    private HeaderViewRecyclerAdapter mHeaderViewRecyclerAdapter;
+
+    private TaoFemaleAdapter mAdapter;
+
+    public static SchoolFragment newInstance()
     {
 
-        return new JianDanMeiziFragment();
+        return new SchoolFragment();
     }
 
     @Override
     public int getLayoutId()
     {
 
-        return R.layout.fragment_jiandan_meizi;
+        return R.layout.activity_tao_female;
     }
 
     @Override
     public void initViews()
     {
 
-        showProgress();
-        initRecycle();
+        initRefreshLayout();
+        initRecycleView();
     }
 
-    private void getJianDanMeizi()
+
+    public void getTaoFemaleData()
     {
 
-        RetrofitHelper.getJianDanApi()
-                .getJianDanMeizi(page)
-                .compose(this.<JianDanMeizi> bindToLifecycle())
+        RetrofitHelper.getTaoFemaleApi().getTaoFemale(String.valueOf(page), ConstantUtil.APP_ID, ConstantUtil.APP_SIGN)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<JianDanMeizi>()
+                .subscribe(new Action1<TaoFemale>()
                 {
 
                     @Override
-                    public void call(JianDanMeizi jianDanMeizi)
+                    public void call(TaoFemale taoFemale)
                     {
 
-                        List<JianDanMeizi.JianDanMeiziData> comments = jianDanMeizi.comments;
-                        if (comments.size() < count)
+                        if (taoFemale.showapiResBody.pagebean.contentlist.size() < pageNum)
                             footView.setVisibility(View.GONE);
-
-                        jianDanMeiziDataList.addAll(comments);
+                        datas.addAll(taoFemale.showapiResBody.pagebean.contentlist);
                         finishTask();
                     }
                 }, new Action1<Throwable>()
@@ -105,7 +103,8 @@ public class JianDanMeiziFragment extends RxBaseFragment
                     public void call(Throwable throwable)
                     {
 
-                        LogUtil.all(throwable.getMessage());
+                        footView.setVisibility(View.GONE);
+                        SnackbarUtil.showMessage(mRecyclerView, getString(R.string.error_message));
                         mSwipeRefreshLayout.post(new Runnable()
                         {
 
@@ -116,8 +115,6 @@ public class JianDanMeiziFragment extends RxBaseFragment
                                 mSwipeRefreshLayout.setRefreshing(false);
                             }
                         });
-                        footView.setVisibility(View.GONE);
-                        SnackbarUtil.showMessage(mRecyclerView, getString(R.string.error_message));
                     }
                 });
     }
@@ -125,8 +122,8 @@ public class JianDanMeiziFragment extends RxBaseFragment
     private void finishTask()
     {
 
-        if (page * count - count - 1 > 0)
-            mAdapter.notifyItemRangeChanged(page * count - count - 1, count);
+        if (page * pageNum - pageNum - 1 > 0)
+            mAdapter.notifyItemRangeChanged(page * pageNum - pageNum - 1, pageNum);
         else
             mAdapter.notifyDataSetChanged();
 
@@ -140,11 +137,10 @@ public class JianDanMeiziFragment extends RxBaseFragment
             public void onItemClick(int position, AbsRecyclerViewAdapter.ClickableViewHolder holder)
             {
 
-                Intent intent = SingleMeiziDetailsActivity.LuanchActivity(getActivity(),
-                        jianDanMeiziDataList.get(position).pics[0], jianDanMeiziDataList.get(position).commentAuthor);
+                Intent intent = SingleMeiziDetailsActivity.LuanchActivity(getActivity(), datas.get(position).avatarUrl, datas.get(position).realName);
                 if (android.os.Build.VERSION.SDK_INT >= 21)
                 {
-                    startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(getActivity(), holder.getParentView().findViewById(R.id.item_fill_image), "transitionImg").toBundle());
+                    startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(getActivity(), holder.getParentView().findViewById(R.id.tao_avatar), "transitionImg").toBundle());
                 } else
                 {
                     startActivity(intent);
@@ -153,13 +149,14 @@ public class JianDanMeiziFragment extends RxBaseFragment
         });
     }
 
-    private void initRecycle()
+
+    public void initRecycleView()
     {
 
         mRecyclerView.setHasFixedSize(true);
         LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
-        mAdapter = new JiandanMeiziAdapter(mRecyclerView, jianDanMeiziDataList);
+        mAdapter = new TaoFemaleAdapter(mRecyclerView, datas, getActivity());
         mHeaderViewRecyclerAdapter = new HeaderViewRecyclerAdapter(mAdapter);
         createFootView();
         mRecyclerView.setAdapter(mHeaderViewRecyclerAdapter);
@@ -171,13 +168,21 @@ public class JianDanMeiziFragment extends RxBaseFragment
             {
 
                 page++;
-                getJianDanMeizi();
                 footView.setVisibility(View.VISIBLE);
+                getTaoFemaleData();
             }
         });
     }
 
-    private void showProgress()
+    private void createFootView()
+    {
+
+        footView = LayoutInflater.from(getActivity()).inflate(R.layout.load_more_foot_layout, mRecyclerView, false);
+        mHeaderViewRecyclerAdapter.addFooterView(footView);
+        footView.setVisibility(View.GONE);
+    }
+
+    private void initRefreshLayout()
     {
 
         mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
@@ -189,10 +194,16 @@ public class JianDanMeiziFragment extends RxBaseFragment
             {
 
                 page = 1;
-                jianDanMeiziDataList.clear();
-                getJianDanMeizi();
+                datas.clear();
+                getTaoFemaleData();
             }
         });
+        showRefreshProgress();
+    }
+
+    public void showRefreshProgress()
+    {
+
         mSwipeRefreshLayout.postDelayed(new Runnable()
         {
 
@@ -201,16 +212,8 @@ public class JianDanMeiziFragment extends RxBaseFragment
             {
 
                 mSwipeRefreshLayout.setRefreshing(true);
-                getJianDanMeizi();
+                getTaoFemaleData();
             }
         }, 500);
-    }
-
-    private void createFootView()
-    {
-
-        footView = LayoutInflater.from(getActivity()).inflate(R.layout.load_more_foot_layout, mRecyclerView, false);
-        mHeaderViewRecyclerAdapter.addFooterView(footView);
-        footView.setVisibility(View.GONE);
     }
 }

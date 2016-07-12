@@ -1,4 +1,4 @@
-package com.sheepyang.gankgirl.model.jiandan;
+package com.sheepyang.gankgirl.model.meizi.jiandan;
 
 import com.google.gson.annotations.SerializedName;
 

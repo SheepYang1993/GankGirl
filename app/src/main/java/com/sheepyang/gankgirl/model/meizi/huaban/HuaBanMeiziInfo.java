@@ -1,4 +1,4 @@
-package com.sheepyang.gankgirl.model.huaban;
+package com.sheepyang.gankgirl.model.meizi.huaban;
 
 public class HuaBanMeiziInfo
 {

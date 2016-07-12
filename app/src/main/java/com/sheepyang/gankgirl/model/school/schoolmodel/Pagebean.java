@@ -1,4 +1,4 @@
-package com.sheepyang.gankgirl.model.taomodel;
+package com.sheepyang.gankgirl.model.school.schoolmodel;
 
 import java.util.ArrayList;
 
