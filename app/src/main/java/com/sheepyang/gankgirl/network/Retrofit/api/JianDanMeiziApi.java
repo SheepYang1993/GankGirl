@@ -1,4 +1,4 @@
-package com.sheepyang.gankgirl.network.api;
+package com.sheepyang.gankgirl.network.Retrofit.api;
 
 import com.sheepyang.gankgirl.model.meizi.jiandan.JianDanMeizi;
 

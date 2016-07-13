@@ -14,7 +14,7 @@ import com.sheepyang.gankgirl.adapter.base.AbsRecyclerViewAdapter;
 import com.sheepyang.gankgirl.base.RxBaseFragment;
 import com.sheepyang.gankgirl.model.meizi.huaban.HuaBanMeizi;
 import com.sheepyang.gankgirl.model.meizi.huaban.HuaBanMeiziInfo;
-import com.sheepyang.gankgirl.network.RetrofitHelper;
+import com.sheepyang.gankgirl.network.Retrofit.RetrofitHelper;
 import com.sheepyang.gankgirl.ui.activity.SingleMeiziDetailsActivity;
 import com.sheepyang.gankgirl.utils.ConstantUtil;
 import com.sheepyang.gankgirl.utils.SnackbarUtil;

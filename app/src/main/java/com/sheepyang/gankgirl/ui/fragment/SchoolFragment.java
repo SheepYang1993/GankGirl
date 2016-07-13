@@ -6,15 +6,16 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 
 import com.sheepyang.gankgirl.R;
-import com.sheepyang.gankgirl.adapter.TaoFemaleAdapter;
+import com.sheepyang.gankgirl.adapter.SchoolAdapter;
 import com.sheepyang.gankgirl.adapter.base.AbsRecyclerViewAdapter;
 import com.sheepyang.gankgirl.base.RxBaseFragment;
-import com.sheepyang.gankgirl.model.meizi.taomodel.Contentlist;
-import com.sheepyang.gankgirl.model.meizi.taomodel.TaoFemale;
-import com.sheepyang.gankgirl.network.RetrofitHelper;
+import com.sheepyang.gankgirl.model.school.schoolmodel.Contentlist;
+import com.sheepyang.gankgirl.model.school.schoolmodel.SchoolFriends;
+import com.sheepyang.gankgirl.network.Retrofit.RetrofitHelper;
 import com.sheepyang.gankgirl.ui.activity.SingleMeiziDetailsActivity;
 import com.sheepyang.gankgirl.utils.ConstantUtil;
 import com.sheepyang.gankgirl.utils.SnackbarUtil;
@@ -35,8 +36,7 @@ import rx.schedulers.Schedulers;
  * <p/>
  * 淘女郎
  */
-public class SchoolFragment extends RxBaseFragment
-{
+public class SchoolFragment extends RxBaseFragment {
 
     @Bind(R.id.swipe_refresh)
     SwipeRefreshLayout mSwipeRefreshLayout;
@@ -54,63 +54,60 @@ public class SchoolFragment extends RxBaseFragment
 
     private HeaderViewRecyclerAdapter mHeaderViewRecyclerAdapter;
 
-    private TaoFemaleAdapter mAdapter;
+    private SchoolAdapter mAdapter;
+    //当刷新时设置
+    //mIsRefreshing=true;
+    //刷新完毕后还原为false
+    //mIsRefreshing=false;
+    private boolean mIsRefreshing;
 
-    public static SchoolFragment newInstance()
-    {
+    public static SchoolFragment newInstance() {
 
         return new SchoolFragment();
     }
 
     @Override
-    public int getLayoutId()
-    {
+    public int getLayoutId() {
 
         return R.layout.activity_tao_female;
     }
 
     @Override
-    public void initViews()
-    {
+    public void initViews() {
 
         initRefreshLayout();
         initRecycleView();
     }
 
+    public void getTaoFemaleDataFromBmob() {
 
-    public void getTaoFemaleData()
-    {
+    }
 
-        RetrofitHelper.getTaoFemaleApi().getTaoFemale(String.valueOf(page), ConstantUtil.APP_ID, ConstantUtil.APP_SIGN)
+    public void getTaoFemaleData() {
+        RetrofitHelper.getSchoolFriendsApi().getSchoolFriends(String.valueOf(page), ConstantUtil.APP_ID, ConstantUtil.APP_SIGN)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<TaoFemale>()
-                {
+                .subscribe(new Action1<SchoolFriends>() {
 
                     @Override
-                    public void call(TaoFemale taoFemale)
-                    {
+                    public void call(SchoolFriends taoFemale) {
 
                         if (taoFemale.showapiResBody.pagebean.contentlist.size() < pageNum)
                             footView.setVisibility(View.GONE);
                         datas.addAll(taoFemale.showapiResBody.pagebean.contentlist);
                         finishTask();
                     }
-                }, new Action1<Throwable>()
-                {
+                }, new Action1<Throwable>() {
 
                     @Override
-                    public void call(Throwable throwable)
-                    {
+                    public void call(Throwable throwable) {
 
                         footView.setVisibility(View.GONE);
                         SnackbarUtil.showMessage(mRecyclerView, getString(R.string.error_message));
-                        mSwipeRefreshLayout.post(new Runnable()
-                        {
+                        mSwipeRefreshLayout.post(new Runnable() {
 
                             @Override
-                            public void run()
-                            {
+                            public void run() {
 
                                 mSwipeRefreshLayout.setRefreshing(false);
                             }
@@ -119,8 +116,7 @@ public class SchoolFragment extends RxBaseFragment
                 });
     }
 
-    private void finishTask()
-    {
+    private void finishTask() {
 
         if (page * pageNum - pageNum - 1 > 0)
             mAdapter.notifyItemRangeChanged(page * pageNum - pageNum - 1, pageNum);
@@ -130,42 +126,51 @@ public class SchoolFragment extends RxBaseFragment
         if (mSwipeRefreshLayout.isRefreshing())
             mSwipeRefreshLayout.setRefreshing(false);
 
-        mAdapter.setOnItemClickListener(new AbsRecyclerViewAdapter.OnItemClickListener()
-        {
+        mAdapter.setOnItemClickListener(new AbsRecyclerViewAdapter.OnItemClickListener() {
 
             @Override
-            public void onItemClick(int position, AbsRecyclerViewAdapter.ClickableViewHolder holder)
-            {
+            public void onItemClick(int position, AbsRecyclerViewAdapter.ClickableViewHolder holder) {
 
                 Intent intent = SingleMeiziDetailsActivity.LuanchActivity(getActivity(), datas.get(position).avatarUrl, datas.get(position).realName);
-                if (android.os.Build.VERSION.SDK_INT >= 21)
-                {
+                if (android.os.Build.VERSION.SDK_INT >= 21) {
                     startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(getActivity(), holder.getParentView().findViewById(R.id.tao_avatar), "transitionImg").toBundle());
-                } else
-                {
+                } else {
                     startActivity(intent);
                 }
             }
         });
+        //当刷新时设置
+        //mIsRefreshing=true;
+        //刷新完毕后还原为false
+        mIsRefreshing=false;
     }
 
 
-    public void initRecycleView()
-    {
+    public void initRecycleView() {
 
         mRecyclerView.setHasFixedSize(true);
         LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
-        mAdapter = new TaoFemaleAdapter(mRecyclerView, datas, getActivity());
+        mAdapter = new SchoolAdapter(mRecyclerView, datas, getActivity());
         mHeaderViewRecyclerAdapter = new HeaderViewRecyclerAdapter(mAdapter);
         createFootView();
         mRecyclerView.setAdapter(mHeaderViewRecyclerAdapter);
-        mRecyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(mLinearLayoutManager)
-        {
+        mRecyclerView.setOnTouchListener(
+                new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        if (mIsRefreshing) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }
+                }
+        );
+        mRecyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(mLinearLayoutManager) {
 
             @Override
-            public void onLoadMore(int currentPage)
-            {
+            public void onLoadMore(int currentPage) {
 
                 page++;
                 footView.setVisibility(View.VISIBLE);
@@ -174,26 +179,26 @@ public class SchoolFragment extends RxBaseFragment
         });
     }
 
-    private void createFootView()
-    {
+    private void createFootView() {
 
         footView = LayoutInflater.from(getActivity()).inflate(R.layout.load_more_foot_layout, mRecyclerView, false);
         mHeaderViewRecyclerAdapter.addFooterView(footView);
         footView.setVisibility(View.GONE);
     }
 
-    private void initRefreshLayout()
-    {
+    private void initRefreshLayout() {
 
         mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
-        {
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 
             @Override
-            public void onRefresh()
-            {
+            public void onRefresh() {
 
                 page = 1;
+                //当刷新时设置
+                mIsRefreshing=true;
+                //刷新完毕后还原为false
+//                mIsRefreshing=false;
                 datas.clear();
                 getTaoFemaleData();
             }
@@ -201,15 +206,12 @@ public class SchoolFragment extends RxBaseFragment
         showRefreshProgress();
     }
 
-    public void showRefreshProgress()
-    {
+    public void showRefreshProgress() {
 
-        mSwipeRefreshLayout.postDelayed(new Runnable()
-        {
+        mSwipeRefreshLayout.postDelayed(new Runnable() {
 
             @Override
-            public void run()
-            {
+            public void run() {
 
                 mSwipeRefreshLayout.setRefreshing(true);
                 getTaoFemaleData();

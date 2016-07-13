@@ -13,7 +13,7 @@ import com.sheepyang.gankgirl.adapter.JiandanMeiziAdapter;
 import com.sheepyang.gankgirl.adapter.base.AbsRecyclerViewAdapter;
 import com.sheepyang.gankgirl.base.RxBaseFragment;
 import com.sheepyang.gankgirl.model.meizi.jiandan.JianDanMeizi;
-import com.sheepyang.gankgirl.network.RetrofitHelper;
+import com.sheepyang.gankgirl.network.Retrofit.RetrofitHelper;
 import com.sheepyang.gankgirl.ui.activity.SingleMeiziDetailsActivity;
 import com.sheepyang.gankgirl.utils.LogUtil;
 import com.sheepyang.gankgirl.utils.SnackbarUtil;

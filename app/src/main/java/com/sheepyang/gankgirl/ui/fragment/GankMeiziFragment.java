@@ -4,6 +4,8 @@ package com.sheepyang.gankgirl.ui.fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.view.MotionEvent;
+import android.view.View;
 
 import com.sheepyang.gankgirl.R;
 import com.sheepyang.gankgirl.adapter.GankMeiziAdapter;
@@ -12,7 +14,7 @@ import com.sheepyang.gankgirl.base.RxBaseFragment;
 import com.sheepyang.gankgirl.model.meizi.gank.GankMeizi;
 import com.sheepyang.gankgirl.model.meizi.gank.GankMeiziInfo;
 import com.sheepyang.gankgirl.model.meizi.gank.GankMeiziResult;
-import com.sheepyang.gankgirl.network.RetrofitHelper;
+import com.sheepyang.gankgirl.network.Retrofit.RetrofitHelper;
 import com.sheepyang.gankgirl.ui.activity.GankMeiziPageActivity;
 import com.sheepyang.gankgirl.utils.SnackbarUtil;
 
@@ -56,6 +58,11 @@ public class GankMeiziFragment extends RxBaseFragment
     private GankMeiziAdapter mAdapter;
 
     private Realm realm;
+    //当刷新时设置
+    //mIsRefreshing=true;
+    //刷新完毕后还原为false
+    //mIsRefreshing=false;
+    private boolean mIsRefreshing = false;
 
     public static GankMeiziFragment newInstance()
     {
@@ -83,6 +90,10 @@ public class GankMeiziFragment extends RxBaseFragment
             {
 
                 page = 1;
+                //当刷新时设置
+                mIsRefreshing=true;
+                //刷新完毕后还原为false
+                //mIsRefreshing=false;
                 clearCache();
                 getGankMeizi();
             }
@@ -97,6 +108,18 @@ public class GankMeiziFragment extends RxBaseFragment
         mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.addOnScrollListener(OnLoadMoreListener(mLayoutManager));
+        mRecyclerView.setOnTouchListener(
+                new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        if (mIsRefreshing) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }
+                }
+        );
         mAdapter = new GankMeiziAdapter(mRecyclerView, gankMeizis);
         mRecyclerView.setAdapter(mAdapter);
     }
@@ -241,6 +264,10 @@ public class GankMeiziFragment extends RxBaseFragment
                 GankMeiziPageActivity.luanch(getActivity(), position);
             }
         });
+        //当刷新时设置
+//        mIsRefreshing=true;
+        //刷新完毕后还原为false
+        mIsRefreshing=false;
     }
 
     RecyclerView.OnScrollListener OnLoadMoreListener(StaggeredGridLayoutManager layoutManager)

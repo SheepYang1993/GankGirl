@@ -59,6 +59,10 @@
             android:name=".ui.activity.AppAboutActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".ui.activity.SendMessageActivity"
+            android:screenOrientation="portrait" />
+
         <receiver android:name=".service.AlarmReceiver">
             <intent-filter>
                 <action android:name="com.hotbitmapgg.moequest.alarm" />

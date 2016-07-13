@@ -1,4 +1,4 @@
-package com.sheepyang.gankgirl.network.api;
+package com.sheepyang.gankgirl.network.Retrofit.api;
 
 import okhttp3.ResponseBody;
 import retrofit2.http.GET;

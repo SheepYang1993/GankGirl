@@ -5,6 +5,8 @@ import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -42,9 +44,14 @@ public class MainActivity extends RxBaseActivity
     @Bind(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
 
+    @Bind(R.id.coor_layout)
+    CoordinatorLayout mCoordinatorLayout;
+
     @Bind(R.id.nav_view)
     NavigationView mNavigationView;
 
+    @Bind(R.id.fab)
+    FloatingActionButton mFab;
     private Fragment[] fragments;
 
     private int currentTabIndex;
@@ -82,6 +89,13 @@ public class MainActivity extends RxBaseActivity
 
     @Override
     public void initViews(Bundle savedInstanceState) {
+        mFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, SendMessageActivity.class);
+                startActivity(intent);
+            }
+        });
         initFragment();
         if (isSchool) {
             setNavigationView();
@@ -304,7 +318,7 @@ public class MainActivity extends RxBaseActivity
     private void logoutApp() {
 
         if (System.currentTimeMillis() - exitTime > 2000) {
-            SnackbarUtil.showMessage(mDrawerLayout, getString(R.string.back_message));
+            SnackbarUtil.showMessage(mCoordinatorLayout, getString(R.string.back_message));
 
             exitTime = System.currentTimeMillis();
         } else {

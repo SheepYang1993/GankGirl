@@ -13,4 +13,7 @@
     <color name="primary_text">#212121</color>
     <color name="secondary_text">#727272</color>
     <color name="divider">#B6B6B6</color>
+    <!-- 黑色半透明遮罩 -->
+    <color name="text_black_transparent_bg">#993c3c3c</color>
+    <color name="home_bg">#e5e5e5</color>
 </resources>

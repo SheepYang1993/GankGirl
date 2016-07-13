@@ -1,11 +1,12 @@
-package com.sheepyang.gankgirl.network;
+package com.sheepyang.gankgirl.network.Retrofit;
 
 import com.facebook.stetho.okhttp3.StethoInterceptor;
-import com.sheepyang.gankgirl.network.api.DoubanMeizhiApi;
-import com.sheepyang.gankgirl.network.api.GankMeiziApi;
-import com.sheepyang.gankgirl.network.api.HuaBanMeiziApi;
-import com.sheepyang.gankgirl.network.api.JianDanMeiziApi;
-import com.sheepyang.gankgirl.network.api.TaoFemaleaApi;
+import com.sheepyang.gankgirl.network.Retrofit.api.DoubanMeizhiApi;
+import com.sheepyang.gankgirl.network.Retrofit.api.GankMeiziApi;
+import com.sheepyang.gankgirl.network.Retrofit.api.HuaBanMeiziApi;
+import com.sheepyang.gankgirl.network.Retrofit.api.JianDanMeiziApi;
+import com.sheepyang.gankgirl.network.Retrofit.api.SchoolFriendsApi;
+import com.sheepyang.gankgirl.network.Retrofit.api.TaoFemaleaApi;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;
@@ -91,6 +92,24 @@ public class RetrofitHelper
                 .build();
 
         return retrofit.create(DoubanMeizhiApi.class);
+    }
+
+    /**
+     * 校友圈Api
+     *
+     * @return
+     */
+    public static SchoolFriendsApi getSchoolFriendsApi()
+    {
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_HUABAN_URL)
+                .client(mOkHttpClient)
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        return retrofit.create(SchoolFriendsApi.class);
     }
 
     /**

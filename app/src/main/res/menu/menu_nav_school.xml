@@ -23,7 +23,10 @@
                 android:icon="@drawable/high_importance"
                 android:title="关于App" />
 
-
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/logout"
+                android:title="退出App" />
         </menu>
     </item>
 

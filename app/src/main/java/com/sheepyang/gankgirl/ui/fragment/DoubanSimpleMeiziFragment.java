@@ -11,7 +11,7 @@ import com.sheepyang.gankgirl.adapter.DoubanMeiziAdapter;
 import com.sheepyang.gankgirl.adapter.base.AbsRecyclerViewAdapter;
 import com.sheepyang.gankgirl.base.RxBaseFragment;
 import com.sheepyang.gankgirl.model.meizi.douban.DoubanMeizi;
-import com.sheepyang.gankgirl.network.RetrofitHelper;
+import com.sheepyang.gankgirl.network.Retrofit.RetrofitHelper;
 import com.sheepyang.gankgirl.ui.activity.DoubanMeiziPageActivity;
 import com.sheepyang.gankgirl.utils.MeiziCacheUtil;
 import com.sheepyang.gankgirl.utils.SnackbarUtil;
